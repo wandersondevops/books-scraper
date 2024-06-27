@@ -71,7 +71,7 @@ def read_books(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 @app.post("/run-scraper/")
 def run_scraper():
     try:
-        command = ["python", "scraper.py"]
+        command = ["python scraper.py"]
         result = subprocess.run(
             command,
             shell=True,
@@ -79,7 +79,7 @@ def run_scraper():
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        return {"status": "success"}
+        return {"status": "success", "output": result.stdout.decode()}
     except subprocess.CalledProcessError as e:
         return {"status": "error", "output": e.stderr.decode()}
 # Define a POST endpoint '/run-scraper/' to run a scraper script.
